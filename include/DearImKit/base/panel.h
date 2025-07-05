@@ -1,0 +1,36 @@
+#ifndef PANEL_H
+#define PANEL_H
+
+#include <string>
+
+namespace DearImKit {
+    /**
+     * @brief The base class for any panel to display.
+     *
+     * Override the pure virtual draw() function to display content.
+     * Call the Panel(std::string name) constructor with your derived class constructors.
+     *
+     */
+    class Panel {
+    public:
+        Panel(const std::string &name);
+
+        /**
+         * @brief Draws panel content.
+         *
+         * Use ImGui logic to create content.
+         *
+         * @return bool - Whether the panel should stay open
+         */
+        virtual bool draw() = 0;
+
+        virtual std::string getName() const final;
+
+        virtual ~Panel() = default;
+
+    private:
+        std::string m_name;
+    };
+} // namespace DearImKit
+
+#endif // PANEL_H
