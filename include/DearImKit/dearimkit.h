@@ -6,5 +6,6 @@
 #include "DearImKit/panel_manager/panel_manager.h"
 
 #include "imgui.h"
+#include "misc/cpp/imgui_stdlib.h"
 
 #endif // DEARIMKIT_H
