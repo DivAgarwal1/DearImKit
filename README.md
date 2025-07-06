@@ -1,7 +1,7 @@
 # DearImKit
 DearImKit is a tool designed to simplify writing [Dear ImGui](https://github.com/ocornut/imgui) applications by handling the rendering, ImGui window management, and OS window management, allowing developers to easily write GUIs with ImGui graphics logic.
 
-DearImKit uses Dear ImGui with [GLFW](https://github.com/glfw/glfw) and [OpenGL3](https://www.opengl.org/) backend with [GLAD](https://github.com/Dav1dde/glad).
+DearImKit uses Dear ImGui with [GLFW](https://github.com/glfw/glfw) and [OpenGL3](https://www.opengl.org/) backend as well [GLAD](https://github.com/Dav1dde/glad) to manage OpenGL functions. Dependencies are already included. You only need to include DearImKit in your applications.
 
 ## Installation and Linking
 Include this project in one of the following ways. Visit https://cmake.org/ for help with CMake.
@@ -21,7 +21,7 @@ For example:
 git submodule add --name DearImKit https://github.com/DivAgarwal1/DearImKit extern/DearImKit
 git submodule update --init --recursive
 ```
-This creates an extern folder at your project root and clones DearImKit into it. You should also have a .gitmodules file with the submodule configuration. You may choose any path you wish but it's common practice to have a designated folder with submodules.
+This creates an extern folder at your project root and clones DearImKit into it. You should also have a .gitmodules file with the submodule configuration. You may choose any name or path you wish but it's common practice to have a designated folder with submodules.
 
 In your CMakeLists.txt, include the following.
 ```
@@ -51,7 +51,7 @@ add_subdirectory(<PATH>)
 ```
 In the case of my example:
 ```
-add_subdirectory(extern/DearImKit)
+add_subdirectory(lib/DearImKit)
 ```
 You will now have access to the `dearimkit` target which you can link against your targets using
 ```
@@ -66,7 +66,7 @@ Coming Soon!
 ## Getting Started
 **At the top of your files, make sure to add `#include "DearImKit/dearimkit.h"`.**
 
-The most useful guide to using DearImKit will likely be the [examples](examples/). In particular, the [Hello World](examples/hello_world.cpp) example is a good guide to starting a DearImKit application.
+The most useful guide to using DearImKit will likely be the [examples](examples/). In particular, the [Hello World](examples/hello_world.cpp) example is a good guide to starting a DearImKit application. Direct documentation for the API can be found in the project header files.
 
 ### Launching the Application
 Launch application by running `DearImKit::SetupApp(...)` once when you want to create the application (usually in `main()`). The first parameter to this function is a `std::function` that allows you to specify code to run at startup of your application, after setup and before the application loop. Use this to add windows at startup like home windows or menu bars. Check out the [Hello World](examples/hello_world.cpp) example.
