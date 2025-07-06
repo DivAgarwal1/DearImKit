@@ -1,4 +1,4 @@
-#include "init/init.h"
+#include "DearImKit/init/init.h"
 
 #include <functional>
 #include <iostream>
@@ -11,7 +11,7 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
 
-#include "panelmanager/panelmanager.h"
+#include "DearImKit/panelmanager/panelmanager.h"
 
 const int START_WINDOW_WIDTH = 800;
 const int START_WINDOW_HEIGHT = 600;

@@ -29,6 +29,4 @@ else()
 endif()
 
 target_include_directories(DearImKit PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(DearImKit PRIVATE ${PROJECT_SOURCE_DIR}/include/DearImKit)
-target_include_directories(DearImKit PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(DearImKit PRIVATE lib glfw PUBLIC imgui)

@@ -1,4 +1,4 @@
-#include "panelmanager/panelmanager.h"
+#include "DearImKit/panelmanager/panelmanager.h"
 
 #include <list>
 #include <memory>
@@ -7,7 +7,7 @@
 
 #include "imgui.h"
 
-#include "base/panel.h"
+#include "DearImKit/base/panel.h"
 
 static std::list<std::unique_ptr<DearImKit::Panel>> panels_to_display_p;
 static std::vector<std::pair<std::string, std::string>> queued_errors;

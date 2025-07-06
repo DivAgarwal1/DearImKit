@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "base/panel.h"
+#include "DearImKit/base/panel.h"
 
 namespace DearImKit {
     namespace detail {
