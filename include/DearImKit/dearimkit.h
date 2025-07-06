@@ -3,8 +3,8 @@
 
 #include "DearImKit/init/init.h"
 #include "DearImKit/base/panel.h"
-#include "DearImKit/panelmanager/panelmanager.h"
+#include "DearImKit/panel_manager/panel_manager.h"
 
-#include "imgui/imgui.h"
+#include "imgui.h"
 
 #endif // DEARIMKIT_H

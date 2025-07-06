@@ -1,4 +1,4 @@
-#include "DearImKit/panelmanager/panelmanager.h"
+#include "DearImKit/panel_manager/panel_manager.h"
 
 #include <list>
 #include <memory>

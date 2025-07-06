@@ -20,13 +20,13 @@ file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PR
 add_library(lib ${LIB_FILES})
 target_include_directories(lib PUBLIC ${PROJECT_SOURCE_DIR}/lib/include)
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 if(DEARIMKIT_BUILD_SHARED)
-    add_library(DearImKit SHARED ${SOURCES})
+    add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
 else()
-    add_library(DearImKit STATIC ${SOURCES})
+    add_library(dearimkit STATIC ${DEARIMKIT_SOURCES})
 endif()
 
-target_include_directories(DearImKit PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(DearImKit PRIVATE lib glfw PUBLIC imgui)
+target_include_directories(dearimkit PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(dearimkit PRIVATE lib glfw PUBLIC imgui)

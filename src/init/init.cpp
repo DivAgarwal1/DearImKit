@@ -5,13 +5,13 @@
 #include <tuple>
 
 #include "glad/glad.h"
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
 
-#include "DearImKit/panelmanager/panelmanager.h"
+#include "DearImKit/panel_manager/panel_manager.h"
 
 const int START_WINDOW_WIDTH = 800;
 const int START_WINDOW_HEIGHT = 600;
@@ -89,4 +89,8 @@ int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(v
 
     glfwTerminate();
     return 0;
+}
+
+int DearImKit::SetupApp(std::function<void(void)> at_start, const std::tuple<float, float, float, float> &background_color) {
+    return DearImKit::SetupApp(at_start, []() {}, background_color);
 }
