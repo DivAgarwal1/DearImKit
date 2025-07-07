@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "imgui.h"
+
 namespace DearImKit {
     /**
      * @brief The base class for any panel to display.
@@ -31,6 +33,8 @@ namespace DearImKit {
     private:
         std::string m_name;
     };
+
+    bool Begin(const DearImKit::Panel &panel, bool *p_open = nullptr, ImGuiWindowFlags flags = 0);
 } // namespace DearImKit
 
 #endif // PANEL_H

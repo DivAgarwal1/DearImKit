@@ -38,7 +38,7 @@ public:
         bool stay_open = true;
 
         // Check out https://github.com/ocornut/imgui for guide to ImGui logic
-        if (!ImGui::Begin(DearImKit::Panel::getName().c_str(), &stay_open)) {
+        if (!DearImKit::Begin(*this, &stay_open)) {
             ImGui::End();
             return stay_open;
         }
