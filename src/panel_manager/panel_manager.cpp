@@ -1,5 +1,6 @@
 #include "DearImKit/panel_manager/panel_manager.h"
 
+#include <algorithm>
 #include <list>
 #include <memory>
 #include <string>
@@ -31,7 +32,13 @@ void DearImKit::QueueError(const DearImKit::Panel &panel, const std::string &tit
 }
 
 void DearImKit::detail::InsertPanel(DearImKit::Panel *p_panel_to_add) {
-    panels_to_display_p.emplace_back(p_panel_to_add);
+    auto existing_it = std::find_if(panels_to_display_p.begin(), panels_to_display_p.end(), [p_panel_to_add](const std::unique_ptr<DearImKit::Panel> &p_panel) {
+        return p_panel_to_add->getName() == p_panel->getName();
+    });
+
+    if (existing_it == panels_to_display_p.end()) {
+        panels_to_display_p.emplace_back(p_panel_to_add);
+    }
 }
 
 void DearImKit::detail::Render() {
