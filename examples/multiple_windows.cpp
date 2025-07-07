@@ -6,13 +6,13 @@
 
 class HelloWorldAgain : public DearImKit::Panel {
 public:
-    HelloWorldAgain(int index, int num_times = 1) : DearImKit::Panel("Hello World Again"), m_index(index), m_num_times(num_times) {};
+    HelloWorldAgain(int index, int num_times = 1) : DearImKit::Panel("Hello World Again##" + index), m_num_times(num_times) {};
 
     bool draw() override {
         bool stay_open = true;
 
         // Check out https://github.com/ocornut/imgui for guide to ImGui logic
-        if (!ImGui::Begin((DearImKit::Panel::getName() + "##" + std::to_string(m_index)).c_str(), &stay_open)) {
+        if (!DearImKit::Begin(*this, &stay_open)) {
             ImGui::End();
             return stay_open;
         }
@@ -27,7 +27,6 @@ public:
 
 private:
     int m_num_times;
-    int m_index;
 };
 
 class HelloWorld : public DearImKit::Panel {
