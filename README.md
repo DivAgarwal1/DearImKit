@@ -1,5 +1,5 @@
 # DearImKit
-DearImKit is a tool designed to simplify writing [Dear ImGui](https://github.com/ocornut/imgui) applications by handling the rendering, ImGui window management, and OS window management, allowing developers to easily write GUIs with ImGui graphics logic.
+DearImKit is a C++ GUI library designed to simplify writing [Dear ImGui](https://github.com/ocornut/imgui) applications by handling the rendering, ImGui window management, and OS window management, allowing developers to easily write GUIs with ImGui graphics logic.
 
 DearImKit uses Dear ImGui with [GLFW](https://github.com/glfw/glfw) and [OpenGL3](https://www.opengl.org/) backend as well [GLAD](https://github.com/Dav1dde/glad) to manage OpenGL functions. Dependencies are already included. You only need to include DearImKit in your applications.
 
@@ -18,7 +18,7 @@ git submodule update --init --recursive
 ```
 For example:
 ```
-git submodule add --name DearImKit https://github.com/DivAgarwal1/DearImKit extern/DearImKit
+git submodule add --name DearImKit https://github.com/DivAgarwal1/DearImKit extern/dearimkit
 git submodule update --init --recursive
 ```
 This creates an extern folder at your project root and clones DearImKit into it. You should also have a .gitmodules file with the submodule configuration. You may choose any name or path you wish but it's common practice to have a designated folder with submodules.
@@ -29,7 +29,7 @@ add_subdirectory(<PATH>)
 ```
 In the case of my example:
 ```
-add_subdirectory(extern/DearImKit)
+add_subdirectory(extern/dearimkit)
 ```
 You will now have access to the `dearimkit` target which you can link against your targets using
 ```
@@ -42,7 +42,11 @@ Move on to [Getting Started](#getting-started).
 First clone the repository (or download and move the code) into your project.
 For example:
 ```
-git clone https://github.com/DivAgarwal1/DearImKit lib/DearImKit
+git clone https://github.com/DivAgarwal1/DearImKit lib/dearimkit
+```
+Next move into the directory you just cloned into (`cd lib/dearimkit` in my example) and run the following.
+```
+git submodule update --init --recursive
 ```
 
 In your CMakeLists.txt, include the following.
@@ -51,7 +55,7 @@ add_subdirectory(<PATH>)
 ```
 In the case of my example:
 ```
-add_subdirectory(lib/DearImKit)
+add_subdirectory(lib/dearimkit)
 ```
 You will now have access to the `dearimkit` target which you can link against your targets using
 ```
@@ -76,7 +80,7 @@ If you wish to create multiple windows, existing windows can add new ones by cal
 ### Creating a Window
 We mention adding startup windows at launch, but how do we actually create a window? Each window we write will be a class extending the base `DearImKit::Panel` class. 
 
-The derived class should call the base constructor to set the name of the window and override the `draw()` function to render content. Place ImGui drawing logic in `draw()`. `draw()` should return `true` if the window should stay open and `false` if the window should close. Using `p_open` in `ImGui::Begin(...)` is very useful for this task: to have windows close by a close button in the top right corner, set a variable to `true` at the start of `draw()`, pass the variable's address to `p_open`, and return the variable at the end of `draw()`.
+The derived class should call the base constructor to set the name of the window and override the `draw()` function to render content. Place ImGui drawing logic in `draw()`; you may in general use all ImGui drawing logic, except use `DearImKit::Begin(...)` instead of `ImGui::Begin(...)`. `draw()` should return `true` if the window should stay open and `false` if the window should close. Using `p_open` in `DearImKit::Begin(...)` is very useful for this task: to have windows close by a close button in the top right corner, set a variable to `true` at the start of `draw()`, pass the variable's address to `p_open`, and return the variable at the end of `draw()`.
 
 Check out the [Hello World](examples/hello_world.cpp) example to see a guide.
 
