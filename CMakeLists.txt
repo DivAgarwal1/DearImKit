@@ -20,6 +20,8 @@ file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PR
 add_library(lib ${LIB_FILES})
 target_include_directories(lib PUBLIC ${PROJECT_SOURCE_DIR}/lib/include)
 
+find_package(OpenGL REQUIRED)
+
 file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 if(DEARIMKIT_BUILD_SHARED)
@@ -29,4 +31,4 @@ else()
 endif()
 
 target_include_directories(dearimkit PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(dearimkit PRIVATE lib glfw PUBLIC imgui)
+target_link_libraries(dearimkit PRIVATE lib glfw OpenGL::GL PUBLIC imgui)
