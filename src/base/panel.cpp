@@ -50,7 +50,7 @@ void DearImKit::Image(std::string filename, DearImKit::Size size) {
     if (size.width >= 0 && size.height >= 0) {
         im_size = ImVec2{size.width, size.height};
     } else if (size.width > 0) {
-        im_size = ImVec2{size.width, (float)image_data.size.height * size.width / image_data.size.height};
+        im_size = ImVec2{size.width, (float)image_data.size.height * size.width / image_data.size.width};
     } else if (size.height > 0) {
         im_size = ImVec2{(float)image_data.size.width * size.height / image_data.size.height, size.height};
     } else {
