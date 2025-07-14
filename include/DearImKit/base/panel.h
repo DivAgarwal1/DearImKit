@@ -6,6 +6,11 @@
 #include "imgui.h"
 
 namespace DearImKit {
+    struct Size {
+        int width = -1;
+        int height = -1;
+    };
+
     /**
      * @brief The base class for any panel to display.
      *
@@ -36,7 +41,7 @@ namespace DearImKit {
 
     bool Begin(const DearImKit::Panel &panel, bool *p_open = nullptr, ImGuiWindowFlags flags = 0);
 
-    void Image(std::string filename, int width, int height);
+    void Image(std::string filename, DearImKit::Size size);
 
     void ImageBackground(std::string filename);
 } // namespace DearImKit
