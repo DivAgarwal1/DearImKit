@@ -38,7 +38,7 @@ namespace DearImKit {
 
     void Image(std::string filename, int width, int height);
 
-    void DearImKit::ImageBackground(std::string filename);
+    void ImageBackground(std::string filename);
 } // namespace DearImKit
 
 #endif // PANEL_H
