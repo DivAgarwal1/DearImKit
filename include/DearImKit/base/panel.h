@@ -35,6 +35,10 @@ namespace DearImKit {
     };
 
     bool Begin(const DearImKit::Panel &panel, bool *p_open = nullptr, ImGuiWindowFlags flags = 0);
+
+    void Image(std::string filename, int width, int height);
+
+    void DearImKit::ImageBackground(std::string filename);
 } // namespace DearImKit
 
 #endif // PANEL_H
