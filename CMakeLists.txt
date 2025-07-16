@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(DearImKit VERSION 1.0 LANGUAGES C CXX)
 
+set(GLFW_INSTALL OFF)
 add_subdirectory(extern/glfw3)
 
 file(GLOB IMGUI_BACKEND ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_glfw.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_opengl3.cpp)
