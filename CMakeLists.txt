@@ -29,9 +29,12 @@ file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/
 
 if(DEARIMKIT_BUILD_SHARED)
     add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
-    install(TARGETS dearimkit DESTINATION .)
 else()
     add_library(dearimkit STATIC ${DEARIMKIT_SOURCES})
+endif()
+
+if(DEARIMKIT_INSTALL_LOCATION)
+    install(TARGETS dearimkit DESTINATION ${DEARIMKIT_INSTALL_LOCATION})
 endif()
 
 target_include_directories(dearimkit PUBLIC ${PROJECT_SOURCE_DIR}/include)

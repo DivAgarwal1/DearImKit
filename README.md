@@ -35,6 +35,7 @@ You will now have access to the `dearimkit` target which you can link against yo
 ```
 target_link_libraries(<TARGET> <PRIVATE|PUBLIC|INTERFACE> dearimkit) 
 ```
+If you wish to build DearImKit as a shared library, add `set(DEARIMKIT_BUILD_SHARED ON)` before adding the sub_directory. If you add `set(DEARIMKIT_INSTALL_LOCATION <PATH>)`, running install with CMake will add the `libdearimkit` shared object to `<PATH>` relative to your CMake install prefix. Make sure to include this in the RPATH of your target.
 
 Move on to [Getting Started](#getting-started).
 
@@ -61,6 +62,7 @@ You will now have access to the `dearimkit` target which you can link against yo
 ```
 target_link_libraries(<TARGET> <PRIVATE|PUBLIC|INTERFACE> dearimkit) 
 ```
+If you wish to build DearImKit as a shared library, add `set(DEARIMKIT_BUILD_SHARED ON)` before adding the sub_directory. If you add `set(DEARIMKIT_INSTALL_LOCATION <PATH>)`, running install with CMake will add the `libdearimkit` shared object to `<PATH>` relative to your CMake install prefix. Make sure to include this in the RPATH of your target.
 
 Move on to [Getting Started](#getting-started).
 
@@ -86,6 +88,9 @@ Check out the [Hello World](examples/hello_world.cpp) example to see a guide.
 
 ### Displaying Errors
 If you wish to display errors, windows can call `DearImKit::QueueError(...)` to capture user attention with an error popup. Check out the [Error Popups](examples/error_popups.cpp) example.
+
+### Images
+Coming Soon!
 
 ## Licensing
 Check out The MIT License for this project [here](LICENSE).
