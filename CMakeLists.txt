@@ -35,3 +35,5 @@ endif()
 
 target_include_directories(dearimkit PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(dearimkit PRIVATE lib glfw OpenGL::GL PUBLIC imgui)
+
+install(TARGETS dearimkit DESTINATION .)
