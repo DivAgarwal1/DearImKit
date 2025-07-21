@@ -13,7 +13,6 @@ file(GLOB IMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp ${PROJECT_SOURC
 
 add_library(imgui ${IMGUI_BACKEND} ${IMGUI_SOURCES})
 target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/extern/imgui)
-set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(imgui PRIVATE glfw)
 
@@ -21,7 +20,6 @@ file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PR
 
 add_library(lib ${LIB_FILES})
 target_include_directories(lib PUBLIC ${PROJECT_SOURCE_DIR}/lib/include)
-set_target_properties(lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 find_package(OpenGL REQUIRED)
 
@@ -29,6 +27,8 @@ file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/
 
 if(DEARIMKIT_BUILD_SHARED)
     add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
+    set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    set_target_properties(lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 else()
     add_library(dearimkit STATIC ${DEARIMKIT_SOURCES})
 endif()

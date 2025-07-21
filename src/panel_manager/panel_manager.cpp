@@ -14,7 +14,7 @@ static std::list<std::unique_ptr<DearImKit::Panel>> panels_to_display_p;
 static std::vector<std::pair<std::string, std::string>> queued_errors;
 static std::list<std::pair<std::string, std::string>> error_msgs;
 
-void DrawModalPopup(std::pair<std::string, std::string> error, bool *p_open) {
+void drawModalPopup(std::pair<std::string, std::string> error, bool* p_open) {
     ImGuiWindowFlags flags = 0;
     flags |= ImGuiWindowFlags_NoMove;
     flags |= ImGuiWindowFlags_NoCollapse;
@@ -27,12 +27,12 @@ void DrawModalPopup(std::pair<std::string, std::string> error, bool *p_open) {
     }
 }
 
-void DearImKit::QueueError(const DearImKit::Panel &panel, const std::string &title, const std::string &message) {
+void DearImKit::QueueError(const DearImKit::Panel& panel, const std::string& title, const std::string& message) {
     queued_errors.emplace_back(panel.getName() + ": " + title, message);
 }
 
-void DearImKit::detail::InsertPanel(DearImKit::Panel *p_panel_to_add) {
-    auto existing_it = std::find_if(panels_to_display_p.begin(), panels_to_display_p.end(), [p_panel_to_add](const std::unique_ptr<DearImKit::Panel> &p_panel) {
+void DearImKit::detail::InsertPanel(DearImKit::Panel* p_panel_to_add) {
+    auto existing_it = std::find_if(panels_to_display_p.begin(), panels_to_display_p.end(), [p_panel_to_add](const std::unique_ptr<DearImKit::Panel>& p_panel) {
         return p_panel_to_add->getName() == p_panel->getName();
     });
 
@@ -58,7 +58,7 @@ void DearImKit::detail::Render() {
     for (auto it = error_msgs.begin(); it != error_msgs.end(); ++it) {
         bool pop_open = true;
 
-        DrawModalPopup(*it, &pop_open);
+        drawModalPopup(*it, &pop_open);
 
         if (!pop_open) {
             it = error_msgs.erase(it);

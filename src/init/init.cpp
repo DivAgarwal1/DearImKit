@@ -4,8 +4,8 @@
 #include <iostream>
 #include <tuple>
 
-#include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "glad/glad.h"
 
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
@@ -16,7 +16,7 @@
 const int START_WINDOW_WIDTH = 800;
 const int START_WINDOW_HEIGHT = 600;
 
-void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
+void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
@@ -30,7 +30,7 @@ void initImGuiFrames() {
     ImGui::NewFrame();
 }
 
-int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(void)> during_loop, const std::tuple<float, float, float, float> &background_color) {
+int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(void)> during_loop, const std::tuple<float, float, float, float>& background_color) {
     if (!glfwInit()) {
         std::cout << "Failed to initialize GLFW" << std::endl;
         return 1;
@@ -39,7 +39,7 @@ int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(v
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *p_window = glfwCreateWindow(START_WINDOW_WIDTH, START_WINDOW_HEIGHT, "Main", nullptr, nullptr);
+    GLFWwindow* p_window = glfwCreateWindow(START_WINDOW_WIDTH, START_WINDOW_HEIGHT, "Main", nullptr, nullptr);
     if (p_window == nullptr) {
         std::cout << "Failed to initialize window" << std::endl;
         glfwTerminate();
@@ -91,6 +91,6 @@ int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(v
     return 0;
 }
 
-int DearImKit::SetupApp(std::function<void(void)> at_start, const std::tuple<float, float, float, float> &background_color) {
+int DearImKit::SetupApp(std::function<void(void)> at_start, const std::tuple<float, float, float, float>& background_color) {
     return DearImKit::SetupApp(at_start, []() {}, background_color);
 }

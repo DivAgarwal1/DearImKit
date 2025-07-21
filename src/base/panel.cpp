@@ -7,13 +7,13 @@
 
 #include "GLFW/glfw3.h"
 
-DearImKit::Panel::Panel(const std::string &name) : m_name(name) {};
+DearImKit::Panel::Panel(const std::string& name) : m_name(name) {};
 
 std::string DearImKit::Panel::getName() const {
     return m_name;
 }
 
-bool DearImKit::Begin(const DearImKit::Panel &panel, bool *p_open, ImGuiWindowFlags flags) {
+bool DearImKit::Begin(const DearImKit::Panel& panel, bool* p_open, ImGuiWindowFlags flags) {
     return ImGui::Begin(panel.getName().c_str(), p_open, flags);
 }
 
@@ -22,9 +22,9 @@ struct ImageData {
     DearImKit::Size size;
 };
 
-ImageData LoadTextureFromFile(const char *filename) {
+ImageData LoadTextureFromFile(const char* filename) {
     int width, height, channels;
-    unsigned char *data = stbi_load(filename, &width, &height, &channels, 4);
+    unsigned char* data = stbi_load(filename, &width, &height, &channels, 4);
     if (!data)
         return ImageData{0};
 
