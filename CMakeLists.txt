@@ -19,6 +19,7 @@ file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PR
 
 add_library(lib ${LIB_FILES})
 target_include_directories(lib PUBLIC ${PROJECT_SOURCE_DIR}/lib/include)
+set_target_properties(lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 find_package(OpenGL REQUIRED)
 
