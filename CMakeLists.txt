@@ -13,6 +13,7 @@ file(GLOB IMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp ${PROJECT_SOURC
 
 add_library(imgui ${IMGUI_BACKEND} ${IMGUI_SOURCES})
 target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/extern/imgui)
+set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(imgui PRIVATE glfw)
 
