@@ -11,24 +11,14 @@ add_subdirectory(extern/glfw3)
 file(GLOB IMGUI_BACKEND ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_glfw.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_opengl3.cpp)
 file(GLOB IMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/misc/cpp/imgui_stdlib.cpp)
 
-foreach(file IN LISTS IMGUI_BACKEND)
-    message(${file})
-endforeach()
-
-foreach(file IN LISTS IMGUI_SOURCES)
-    message(${file})
-endforeach()
-
-add_library(imgui ${IMGUI_BACKEND} ${IMGUI_SOURCES})
+add_library(imgui OBJECT ${IMGUI_BACKEND} ${IMGUI_SOURCES})
 target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/extern/imgui)
+
+message(${IMGUI_SOURCES})
 
 target_link_libraries(imgui PRIVATE glfw)
 
 file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PROJECT_SOURCE_DIR}/lib/*.cpp)
-
-foreach(file IN LISTS LIB_FILES)
-    message(${file})
-endforeach()
 
 add_library(lib ${LIB_FILES})
 target_include_directories(lib PUBLIC ${PROJECT_SOURCE_DIR}/lib/include)
@@ -37,20 +27,19 @@ find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
-foreach(file IN LISTS DEARIMKIT_SOURCES)
-    message(${file})
-endforeach()
-
 if(DEARIMKIT_BUILD_SHARED)
-    add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
+    add_library(dearimkit SHARED ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui>)
     set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON)
     set_target_properties(lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 else()
-    add_library(dearimkit STATIC ${DEARIMKIT_SOURCES})
+    add_library(dearimkit STATIC ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui>)
 endif()
 
 target_include_directories(dearimkit PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(dearimkit PRIVATE lib glfw OpenGL::GL PUBLIC imgui)
+target_link_libraries(dearimkit PRIVATE lib glfw OpenGL::GL)
+target_include_directories(dearimkit PUBLIC
+    $<TARGET_PROPERTY:imgui,INTERFACE_INCLUDE_DIRECTORIES>
+)
 
 if(DEARIMKIT_INSTALL_LOCATION)
     install(TARGETS dearimkit DESTINATION ${DEARIMKIT_INSTALL_LOCATION})
