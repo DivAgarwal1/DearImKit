@@ -14,9 +14,9 @@ file(GLOB IMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp ${PROJECT_SOURC
 add_library(imgui OBJECT ${IMGUI_BACKEND} ${IMGUI_SOURCES})
 target_include_directories(imgui PUBLIC ${PROJECT_SOURCE_DIR}/extern/imgui)
 
-message(${IMGUI_SOURCES})
+# message(${IMGUI_SOURCES})
 
-target_link_libraries(imgui PRIVATE glfw)
+# target_link_libraries(imgui PRIVATE glfw)
 
 file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PROJECT_SOURCE_DIR}/lib/*.cpp)
 
@@ -29,10 +29,12 @@ file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/
 
 if(DEARIMKIT_BUILD_SHARED)
     add_library(dearimkit SHARED ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui>)
-    set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON)
-    set_target_properties(lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    # add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
+    set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON EXCLUDE_FROM_ALL ON)
+    set_target_properties(lib PROPERTIES POSITION_INDEPENDENT_CODE ON EXCLUDE_FROM_ALL ON)
 else()
     add_library(dearimkit STATIC ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui>)
+    # add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
 endif()
 
 target_include_directories(dearimkit PUBLIC ${PROJECT_SOURCE_DIR}/include)
@@ -42,7 +44,28 @@ target_include_directories(dearimkit PUBLIC
 )
 
 if(DEARIMKIT_INSTALL_LOCATION)
-    install(TARGETS dearimkit DESTINATION ${DEARIMKIT_INSTALL_LOCATION})
+    install(
+        TARGETS dearimkit 
+        ARCHIVE DESTINATION ${DEARIMKIT_INSTALL_LOCATION}
+        LIBRARY DESTINATION ${DEARIMKIT_INSTALL_LOCATION}
+    )
 elseif(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    # TODO
+    if(UNIX)
+        set(CMAKE_INSTALL_PREFIX usr/local/)
+    elseif(WIN32)
+        set(CMAKE_INSTALL_PREFIX ${DEARIMKIT_INSTALL_LOCATION})
+    endif()
+    install(
+        TARGETS dearimkit
+        EXPORT dearimkitTargets
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        INCLUDES DESTINATION include
+    )
+    install(
+        EXPORT dearimkitTargets
+        FILE ConfigDearImKit.cmake
+        NAMESPACE DearImKit::
+        DESTINATION cmake
+    )
 endif()
