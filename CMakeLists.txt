@@ -66,6 +66,6 @@ elseif(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
         EXPORT dearimkitTargets
         FILE ConfigDearImKit.cmake
         NAMESPACE DearImKit::
-        DESTINATION cmake
+        DESTINATION lib/XYZcmake
     )
 endif()
