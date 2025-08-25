@@ -49,8 +49,6 @@ void initImGuiIniFile(const std::string& app_name) {
 }
 
 int DearImKit::SetupApp(std::string app_name, std::function<void(void)> at_start, std::function<void(void)> during_loop, const std::tuple<float, float, float, float>& background_color) {
-    initImGuiIniFile(app_name);
-
     if (!glfwInit()) {
         std::cout << "Failed to initialize GLFW" << std::endl;
         return 1;
@@ -75,6 +73,8 @@ int DearImKit::SetupApp(std::string app_name, std::function<void(void)> at_start
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+
+    initImGuiIniFile(app_name);
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
