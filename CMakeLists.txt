@@ -43,4 +43,6 @@ target_include_directories(dearimkit PUBLIC
 
 if(DEARIMKIT_INSTALL_LOCATION)
     install(TARGETS dearimkit DESTINATION ${DEARIMKIT_INSTALL_LOCATION})
+elseif(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    # TODO
 endif()

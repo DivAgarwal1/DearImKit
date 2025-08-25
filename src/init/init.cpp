@@ -1,7 +1,9 @@
 #include "DearImKit/init/init.h"
 
+#include <filesystem>
 #include <functional>
 #include <iostream>
+#include <string>
 #include <tuple>
 
 #include "glad/glad.h"
@@ -31,7 +33,24 @@ void initImGuiFrames() {
     ImGui::NewFrame();
 }
 
-int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(void)> during_loop, const std::tuple<float, float, float, float>& background_color) {
+void initImGuiIniFile(const std::string& app_name) {
+#ifdef _WIN32
+    const char* base = getenv("APPDATA");
+    std::filesystem::path config = std::filesystem::path(base) / app_name;
+#else
+    const char* base = getenv("XDG_CONFIG_HOME");
+    std::filesystem::path config = base ? std::filesystem::path(base) : std::filesystem::path(getenv("HOME")) / ".config";
+    config /= app_name;
+#endif
+
+    std::filesystem::create_directories(config);
+    static std::string ini_file = (config / "imgui.ini").string();
+    ImGui::GetIO().IniFilename = ini_file.c_str();
+}
+
+int DearImKit::SetupApp(std::string app_name, std::function<void(void)> at_start, std::function<void(void)> during_loop, const std::tuple<float, float, float, float>& background_color) {
+    initImGuiIniFile(app_name);
+
     if (!glfwInit()) {
         std::cout << "Failed to initialize GLFW" << std::endl;
         return 1;
@@ -92,6 +111,6 @@ int DearImKit::SetupApp(std::function<void(void)> at_start, std::function<void(v
     return 0;
 }
 
-int DearImKit::SetupApp(std::function<void(void)> at_start, const std::tuple<float, float, float, float>& background_color) {
-    return DearImKit::SetupApp(at_start, []() {}, background_color);
+int DearImKit::SetupApp(std::string app_name, std::function<void(void)> at_start, const std::tuple<float, float, float, float>& background_color) {
+    return DearImKit::SetupApp(app_name, at_start, []() {}, background_color);
 }

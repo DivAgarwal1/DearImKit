@@ -2,6 +2,7 @@
 #define INIT_H
 
 #include <functional>
+#include <string>
 #include <tuple>
 
 namespace DearImKit {
@@ -10,6 +11,8 @@ namespace DearImKit {
      *
      * Sets up environment and runs application loop. Calling this function is all you need to create a GUI app.
      *
+     * @param app_name
+     * The name of your app.
      * @param at_start
      * A function to execute after setup and before the application loop,
      * use especially to add windows at startup like home windows or menu bars
@@ -21,13 +24,15 @@ namespace DearImKit {
      * @return `int` - The exit code,
      * can be used as the return value of entry point
      */
-    int SetupApp(std::function<void(void)> at_start, std::function<void(void)> during_loop = []() {}, const std::tuple<float, float, float, float>& background_color = std::make_tuple(0.2f, 0.3f, 0.3f, 1.0f));
+    int SetupApp(std::string app_name, std::function<void(void)> at_start, std::function<void(void)> during_loop = []() {}, const std::tuple<float, float, float, float>& background_color = std::make_tuple(0.2f, 0.3f, 0.3f, 1.0f));
 
     /**
      * @brief Run this function once at your entry point (usually `main()`).
      *
      * Sets up environment and runs application loop. Calling this function is all you need to create a GUI app.
      *
+     * @param app_name
+     * The name of your app.
      * @param at_start
      * A function to execute after setup and before the application loop,
      * use especially to add windows at startup like home windows or menu bars
@@ -36,7 +41,7 @@ namespace DearImKit {
      * @return `int` - The exit code,
      * can be used as the return value of entry point
      */
-    int SetupApp(std::function<void(void)> at_start, const std::tuple<float, float, float, float>& background_color);
+    int SetupApp(std::string app_name, std::function<void(void)> at_start, const std::tuple<float, float, float, float>& background_color);
 } // namespace DearImKit
 
 #endif // INIT_H
