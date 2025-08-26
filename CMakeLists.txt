@@ -69,7 +69,11 @@ elseif(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
         EXPORT dearimkitTargets
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
-        PUBLIC_HEADER DESTINATION include
+        INCLUDES DESTINATION include
+    )
+    install(
+        DIRECTORY include
+        DESTINATION include
     )
     install(
         EXPORT dearimkitTargets
