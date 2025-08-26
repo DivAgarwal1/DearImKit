@@ -69,12 +69,12 @@ elseif(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
         EXPORT dearimkitTargets
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
-        INCLUDES DESTINATION include
+        PUBLIC_HEADER DESTINATION include
     )
     install(
         EXPORT dearimkitTargets
         FILE ConfigDearImKit.cmake
         NAMESPACE DearImKit::
-        DESTINATION lib/XYZcmake
+        DESTINATION lib/cmake
     )
 endif()
