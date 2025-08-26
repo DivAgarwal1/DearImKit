@@ -18,7 +18,7 @@ target_include_directories(imgui PUBLIC
 
 # message(${IMGUI_SOURCES})
 
-# target_link_libraries(imgui PRIVATE glfw)
+target_link_libraries(imgui PRIVATE glfw)
 
 file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PROJECT_SOURCE_DIR}/lib/*.cpp)
 
