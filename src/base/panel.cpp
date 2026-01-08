@@ -1,4 +1,4 @@
-#include "DearImKit/base/panel.h"
+#include "DearImKit/base/base.h"
 
 #include <string>
 

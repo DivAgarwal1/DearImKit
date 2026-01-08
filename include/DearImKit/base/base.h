@@ -52,8 +52,7 @@ namespace DearImKit {
      * Pass `nullptr` or leave as default to make an uncloseable ImGui window.
      * @param flags
      * `ImGuiWindowFlags` for the created ImGui window.
-     * @return true
-     * @return false
+     * @return `bool` - Whether the window is collapsed
      */
     bool Begin(const DearImKit::Panel& panel, bool* p_open = nullptr, ImGuiWindowFlags flags = 0);
 

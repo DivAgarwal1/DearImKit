@@ -1,7 +1,7 @@
 #ifndef DEARIMKIT_H
 #define DEARIMKIT_H
 
-#include "DearImKit/base/panel.h"
+#include "DearImKit/base/base.h"
 #include "DearImKit/init/init.h"
 #include "DearImKit/panel_manager/panel_manager.h"
 

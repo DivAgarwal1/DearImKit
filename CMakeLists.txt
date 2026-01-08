@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(DearImKit VERSION 1.0 LANGUAGES C CXX)
@@ -31,6 +31,11 @@ find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
+if(DEARIMKIT_WITH_C_ABI)
+    file(GLOB_RECURSE C_WRAPPER CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/c/*.cpp)
+    list(APPEND DEARIMKIT_SOURCES ${C_WRAPPER})
+endif()
+
 if(DEARIMKIT_BUILD_SHARED)
     add_library(dearimkit SHARED ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui>)
     # add_library(dearimkit SHARED ${DEARIMKIT_SOURCES})
@@ -44,6 +49,7 @@ endif()
 target_include_directories(dearimkit PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 )
+target_include_directories(dearimkit PRIVATE ${PROJECT_SOURCE_DIR}/c/include)
 target_link_libraries(dearimkit PRIVATE thirdparty glfw OpenGL::GL)
 target_include_directories(dearimkit PUBLIC
     $<TARGET_PROPERTY:imgui,INTERFACE_INCLUDE_DIRECTORIES>

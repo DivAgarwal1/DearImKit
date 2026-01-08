@@ -8,7 +8,7 @@
 
 #include "imgui.h"
 
-#include "DearImKit/base/panel.h"
+#include "DearImKit/base/base.h"
 
 static std::list<std::unique_ptr<DearImKit::Panel>> panels_to_display_p;
 static std::vector<std::pair<std::string, std::string>> queued_errors;

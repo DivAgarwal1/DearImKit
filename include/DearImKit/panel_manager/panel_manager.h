@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <utility>
 
-#include "DearImKit/base/panel.h"
+#include "DearImKit/base/base.h"
 
 namespace DearImKit {
     namespace detail {
