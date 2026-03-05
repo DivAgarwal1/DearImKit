@@ -1,9 +1,9 @@
-#include "panel_manager.h"
+#include "../../include/DearImKit/panel_manager/panel_manager.h"
 
 #include <functional>
 #include <string>
 
-#include "DearImKit/base/panel.h"
+#include "DearImKit/base/base.h"
 #include "DearImKit/panel_manager/panel_manager.h"
 
 class ExternPanel : public DearImKit::Panel {
@@ -19,9 +19,6 @@ private:
     void* mp_state;
 };
 
-extern "C" {
-
 void DearImKit_AddPanel(const char* name, bool (*draw)(void*), void* state) {
     DearImKit::AddPanel<ExternPanel>(name, draw, state);
-}
 }

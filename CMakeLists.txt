@@ -27,8 +27,6 @@ target_include_directories(imgui INTERFACE
     $<INSTALL_INTERFACE:include/DearImKit/imgui>
 )
 
-# message(${IMGUI_SOURCES})
-
 target_link_libraries(imgui PRIVATE glfw)
 
 file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PROJECT_SOURCE_DIR}/lib/*.cpp)
@@ -73,7 +71,6 @@ target_include_directories(dearimkit INTERFACE
 )
 
 if (DEARIMKIT_WITH_C_ABI)
-    target_include_directories(dearimkit PRIVATE ${PROJECT_SOURCE_DIR}/c/include)
     target_include_directories(dearimkit INTERFACE
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/c/include>
     )
@@ -105,9 +102,15 @@ install(FILES cmake/DearImKitConfig.cmake
     DESTINATION lib/cmake/DearImKit
 )
 
-install(DIRECTORY include/
-    DESTINATION include
-)
+if (DEARIMKIT_WITH_C_ABI)
+    install(DIRECTORY c/include/
+        DESTINATION include
+    )
+else()
+    install(DIRECTORY include/
+        DESTINATION include
+    )
+endif()
 
 install(FILES extern/imgui/imgui.h extern/imgui/imconfig.h
     DESTINATION include/DearImKit/imgui
