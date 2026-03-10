@@ -9,7 +9,6 @@ project(DearImKit VERSION 1.0 LANGUAGES C CXX)
 #################### SETUP OPTIONS ####################
 
 option(DEARIMKIT_BUILD_SHARED "Build as Shared Library" OFF)
-option(DEARIMKIT_WITH_C_ABI "Build and Export with C-ABI Bindings" OFF)
 
 
 #################### GATHER DEPENDENCIES ####################
@@ -41,11 +40,6 @@ find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
-if(DEARIMKIT_WITH_C_ABI)
-    file(GLOB_RECURSE C_WRAPPER CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/c/*.cpp)
-    list(APPEND DEARIMKIT_SOURCES ${C_WRAPPER})
-endif()
-
 
 #################### BUILD DEARIMKIT LIBRARY ####################
 
@@ -69,12 +63,6 @@ target_include_directories(dearimkit INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-
-if (DEARIMKIT_WITH_C_ABI)
-    target_include_directories(dearimkit INTERFACE
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/c/include>
-    )
-endif()
 
 
 #################### LINK LIBRARIES ####################
@@ -102,15 +90,9 @@ install(FILES cmake/DearImKitConfig.cmake
     DESTINATION lib/cmake/DearImKit
 )
 
-if (DEARIMKIT_WITH_C_ABI)
-    install(DIRECTORY c/include/
-        DESTINATION include
-    )
-else()
-    install(DIRECTORY include/
-        DESTINATION include
-    )
-endif()
+install(DIRECTORY include/
+    DESTINATION include
+)
 
 install(FILES extern/imgui/imgui.h extern/imgui/imconfig.h
     DESTINATION include/DearImKit/imgui
