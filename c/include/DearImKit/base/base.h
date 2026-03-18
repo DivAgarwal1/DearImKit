@@ -1,19 +1,23 @@
 #ifndef C_PANEL_H
 #define C_PANEL_H
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
-struct DearImKit_Size {
-    int width = -1;
-    int height = -1;
-};
+typedef struct DearImKit_Size {
+    int width;
+    int height;
+} DearImKit_Size;
 
-bool DearImKit_Begin(void* panel, bool* p_open, int flags);
+int DearImKit_Begin(const char* panel_name, int* p_open, int flags);
 
 void DearImKit_Image(const char* filename, DearImKit_Size size);
 
 void DearImKit_ImageBackground(const char* filename);
 
+#ifdef __cplusplus
 }
+#endif
 
 #endif

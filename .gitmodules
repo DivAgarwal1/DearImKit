@@ -4,3 +4,6 @@
 [submodule "GLFW"]
 	path = extern/glfw3
 	url = https://github.com/glfw/glfw.git
+[submodule "cimgui"]
+	path = extern/cimgui
+	url = personal:cimgui/cimgui

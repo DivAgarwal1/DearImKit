@@ -9,7 +9,6 @@ project(DearImKit VERSION 1.0 LANGUAGES C CXX)
 #################### SETUP OPTIONS ####################
 
 option(DEARIMKIT_BUILD_SHARED "Build as Shared Library" OFF)
-option(DEARIMKIT_WITH_C_ABI "Build and Export with C-ABI Bindings" OFF)
 
 
 #################### GATHER DEPENDENCIES ####################
@@ -17,17 +16,20 @@ option(DEARIMKIT_WITH_C_ABI "Build and Export with C-ABI Bindings" OFF)
 set(GLFW_INSTALL OFF)
 add_subdirectory(extern/glfw3)
 
-file(GLOB IMGUI_BACKEND ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_glfw.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/backends/imgui_impl_opengl3.cpp)
-file(GLOB IMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp ${PROJECT_SOURCE_DIR}/extern/imgui/misc/cpp/imgui_stdlib.cpp)
+file(GLOB IMGUI_BACKEND ${PROJECT_SOURCE_DIR}/extern/cimgui/imgui/backends/imgui_impl_glfw.cpp ${PROJECT_SOURCE_DIR}/extern/cimgui/imgui/backends/imgui_impl_opengl3.cpp)
+file(GLOB IMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/cimgui/imgui/*.cpp ${PROJECT_SOURCE_DIR}/extern/cimgui/imgui/misc/cpp/imgui_stdlib.cpp)
+file(GLOB CIMGUI_SOURCES ${PROJECT_SOURCE_DIR}/extern/cimgui/cimgui.cpp)
 
-add_library(imgui OBJECT ${IMGUI_BACKEND} ${IMGUI_SOURCES})
-target_include_directories(imgui PRIVATE ${PROJECT_SOURCE_DIR}/extern/imgui)
-target_include_directories(imgui INTERFACE
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/extern/imgui>
-    $<INSTALL_INTERFACE:include/DearImKit/imgui>
+add_library(cimgui OBJECT ${IMGUI_BACKEND} ${IMGUI_SOURCES} ${CIMGUI_SOURCES})
+target_include_directories(cimgui PRIVATE ${PROJECT_SOURCE_DIR}/extern/cimgui)
+target_include_directories(cimgui PRIVATE ${PROJECT_SOURCE_DIR}/extern/cimgui/imgui)
+target_include_directories(cimgui INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/extern/cimgui>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/extern/cimgui/imgui>
+    $<INSTALL_INTERFACE:include/DearImKit/cimgui>
 )
 
-target_link_libraries(imgui PRIVATE glfw)
+target_link_libraries(cimgui PRIVATE glfw)
 
 file(GLOB_RECURSE LIB_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/lib/*.c ${PROJECT_SOURCE_DIR}/lib/*.cpp)
 
@@ -39,22 +41,17 @@ find_package(OpenGL REQUIRED)
 
 #################### GATHER DEARIMKIT SOURCES ####################
 
-file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
-
-if(DEARIMKIT_WITH_C_ABI)
-    file(GLOB_RECURSE C_WRAPPER CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/c/*.cpp)
-    list(APPEND DEARIMKIT_SOURCES ${C_WRAPPER})
-endif()
+file(GLOB_RECURSE DEARIMKIT_SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/c/*.cpp)
 
 
 #################### BUILD DEARIMKIT LIBRARY ####################
 
 if(DEARIMKIT_BUILD_SHARED)
-    add_library(dearimkit SHARED ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui> $<TARGET_OBJECTS:thirdparty>)
-    set_target_properties(imgui PROPERTIES POSITION_INDEPENDENT_CODE ON EXCLUDE_FROM_ALL ON)
+    add_library(dearimkit SHARED ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:cimgui> $<TARGET_OBJECTS:thirdparty>)
+    set_target_properties(cimgui PROPERTIES POSITION_INDEPENDENT_CODE ON EXCLUDE_FROM_ALL ON)
     set_target_properties(thirdparty PROPERTIES POSITION_INDEPENDENT_CODE ON EXCLUDE_FROM_ALL ON)
 else()
-    add_library(dearimkit STATIC ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:imgui> $<TARGET_OBJECTS:thirdparty>)
+    add_library(dearimkit STATIC ${DEARIMKIT_SOURCES} $<TARGET_OBJECTS:cimgui> $<TARGET_OBJECTS:thirdparty>)
 endif()
 
 
@@ -62,32 +59,29 @@ endif()
 
 target_include_directories(dearimkit PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(dearimkit PRIVATE
-    $<TARGET_PROPERTY:imgui,INTERFACE_INCLUDE_DIRECTORIES>)
+    $<TARGET_PROPERTY:cimgui,INTERFACE_INCLUDE_DIRECTORIES>)
 target_include_directories(dearimkit PRIVATE
     $<TARGET_PROPERTY:thirdparty,INTERFACE_INCLUDE_DIRECTORIES>)
+target_include_directories(dearimkit INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/c/include>)
 target_include_directories(dearimkit INTERFACE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
-if (DEARIMKIT_WITH_C_ABI)
-    target_include_directories(dearimkit INTERFACE
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/c/include>
-    )
-endif()
-
 
 #################### LINK LIBRARIES ####################
 
+# target_link_options(dearimkit PRIVATE -static-libgcc -static-libstdc++)
 target_link_libraries(dearimkit PRIVATE glfw OpenGL::GL)
 target_include_directories(dearimkit INTERFACE
-    $<TARGET_PROPERTY:imgui,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:cimgui,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
 
 #################### INSTALL DEARIMKIT ####################
 
-install(TARGETS dearimkit imgui glfw
+install(TARGETS dearimkit cimgui glfw
     EXPORT dearimkitTargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
@@ -102,21 +96,12 @@ install(FILES cmake/DearImKitConfig.cmake
     DESTINATION lib/cmake/DearImKit
 )
 
-if (DEARIMKIT_WITH_C_ABI)
-    install(DIRECTORY c/include/
-        DESTINATION include
-    )
-else()
-    install(DIRECTORY include/
-        DESTINATION include
-    )
-endif()
-
-install(FILES extern/imgui/imgui.h extern/imgui/imconfig.h
-    DESTINATION include/DearImKit/imgui
+install(DIRECTORY c/include/
+    DESTINATION include
 )
-install(FILES extern/imgui/misc/cpp/imgui_stdlib.h
-    DESTINATION include/DearImKit/imgui/misc/cpp
+
+install(FILES extern/cimgui/cimgui.h 
+    DESTINATION include/DearImKit/cimgui
 )
 
 # if(DEARIMKIT_INSTALL_LOCATION)

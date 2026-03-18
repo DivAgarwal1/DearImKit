@@ -6,7 +6,7 @@
 #include "panel_manager/panel_manager.h"
 
 // TODO: Replace with C Bindings
-#include "imgui.h"
-#include "misc/cpp/imgui_stdlib.h"
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+#include "cimgui.h"
 
 #endif // C_DEARIMKIT_H
