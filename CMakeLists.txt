@@ -72,7 +72,6 @@ target_include_directories(dearimkit INTERFACE
 
 #################### LINK LIBRARIES ####################
 
-# target_link_options(dearimkit PRIVATE -static-libgcc -static-libstdc++)
 target_link_libraries(dearimkit PRIVATE glfw OpenGL::GL)
 target_include_directories(dearimkit INTERFACE
     $<TARGET_PROPERTY:cimgui,INTERFACE_INCLUDE_DIRECTORIES>
